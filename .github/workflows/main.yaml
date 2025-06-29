@@ -2,8 +2,11 @@ name: node application with build, unit testing and lint check
 
 on:
   push:
-    branch:
-      ["main"]
+    branches:
+      - main
+      - develop
+
+  workflow_dispatch:
 
 jobs:
   lint:
