@@ -36,6 +36,7 @@ jobs:
 
   build-check:
     runs-on: ubuntu-latest
+    needs: lint
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
