@@ -62,7 +62,7 @@ jobs:
           path: public/css/style.css 
   
   deploy:
-    needs: push
+    needs: build-check
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to EC2
