@@ -107,19 +107,17 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           echo "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.SSH_KNOWN_HOSTS }} << 'EOF'
-            sudo su
-            echo "{{ secrets.GIT_TOKEN }}" | docker login ghcr.io -u akila1996522 --password-stdin
+            sudo echo "{{ secrets.GIT_TOKEN }}" | docker login ghcr.io -u akila1996522 --password-stdin
             if [[ "${{ github.ref }}" == "refs/heads/develop" ]]; then
               cd /var/www/todo/
             else
               cd /var/www/dev.damselbiz.com/
             fi
-            docker compose down
-            docker image prune -af
-            docker compose pull
-            docker compose up -d
+            sudo docker compose down
+            sudo docker image prune -af
+            sudo docker compose pull
+            sudo docker compose up -d
           EOF
         shell: bash
     env:
       deploy_path: ${{ vars.deploy-path }}
-      
