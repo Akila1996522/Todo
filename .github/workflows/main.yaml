@@ -44,28 +44,6 @@ jobs:
         if: steps.lint_check.outcome == 'failure'
         run: npm run lint
 
-  build-check:
-    runs-on: ubuntu-latest
-    needs: lint
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-      
-      - name: Node environment setup
-        uses: actions/setup-node@v4
-        with:
-            node-version: 20
-            
-      - name: Restore node_modules cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.npm
-            node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
       - run: npm run build
 
       - name: Upload build artifact
