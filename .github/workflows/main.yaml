@@ -32,6 +32,15 @@ jobs:
         run: npm ci
 
       - name: lint check
+        id: lint_check
+        continue-on-error: true
+        run: npm run lint
+
+      - name: Auto-fix ESLint errors if failed (step 2)
+        if: steps.lint_check.outcome == 'failure'
+        run: npx eslint . --fix
+
+      - name: Re-run ESLint check after fix (step 3)
         run: npm run lint
 
   build-check:
