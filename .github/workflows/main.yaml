@@ -2,10 +2,9 @@ name: node application with build, unit testing and lint check
 
 on:
   push:
-    branches:
-      - main
-      - develop
-
+    branches: [ develop ]
+  pull_request:
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
@@ -13,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v3
 
       - uses: actions/setup-node@v4
         with:
@@ -39,7 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v3
       
       - name: Node environment setup
         uses: actions/setup-node@v4
