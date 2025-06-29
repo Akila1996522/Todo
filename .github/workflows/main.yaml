@@ -68,7 +68,7 @@ jobs:
 
       - name: intial tailwindcss
         run: |
-          npm install -D tailwindcss@3 postcss autoprefixer
+          npm install -D tailwindcss postcss autoprefixer
           npx tailwindcss init -p
           npm run build
 
