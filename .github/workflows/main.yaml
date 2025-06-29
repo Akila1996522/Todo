@@ -29,7 +29,7 @@ jobs:
             ${{ runner.os }}-node-
 
       - name: Node install
-        run: npm ci
+        run: npm i
 
       - name: lint check
         id: lint_check
