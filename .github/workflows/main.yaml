@@ -86,5 +86,5 @@ jobs:
           EOF
         shell: bash
     env:
-      - deploy_path: {{ vars.deploy-path }}
-        
+      deploy_path: ${{ vars.deploy-path }}
+      
