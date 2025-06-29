@@ -69,7 +69,7 @@ jobs:
       - name: intial tailwindcss
         run: |
           npm install -D tailwindcss postcss autoprefixer
-          npx tailwindcss init -p
+          npx tailwindcss init
           npm run build
 
       - name: Upload build artifact

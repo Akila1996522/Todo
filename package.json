@@ -3,12 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-    "scripts": {
-      "start": "node src/server.js",
-      "build": "npx tailwindcss -i ./public/css/tailwind.css -o ./public/css/style.css",
-      "test": "jest",
-      "lint": "eslint ."
-    },
+  "scripts": {
+    "start": "node src/server.js",
+    "build": "tailwindcss -i ./public/css/tailwind.css -o ./public/css/style.css",
+    "dev": "tailwindcss -i ./public/css/tailwind.css -o ./public/css/style.css --watch",
+    "test": "jest",
+    "lint": "eslint ."
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
