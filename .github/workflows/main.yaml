@@ -41,6 +41,7 @@ jobs:
         run: npx eslint . --fix
 
       - name: Re-run ESLint check after fix (step 3)
+        if: steps.lint_check.outcome == 'failure'
         run: npm run lint
 
   build-check:
