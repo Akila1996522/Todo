@@ -8,7 +8,7 @@ RUN npm i
 FROM node AS runner
 WORKDIR /app
 COPY --from=builder /app/node_modules /app/node_modules
-COPY --from=builder . .
+COPY --from=builder /app /app
 
 USER node
 EXPOSE 3000
