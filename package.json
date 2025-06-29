@@ -3,17 +3,16 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-    "scripts": {
-      "start": "node src/server.js",
-      "build": "npx tailwindcss -i ./public/css/tailwind.css -o ./public/css/style.css --watch",
-      "test": "jest",
-      "lint": "eslint ."
-    },
+  "scripts": {
+    "start": "node src/server.js",
+    "build": "npx tailwindcss -i ./public/css/tailwind.css -o ./public/css/style.css",
+    "test": "jest",
+    "lint": "eslint ."
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@tailwindcss/cli": "^4.1.11",
     "ejs": "^3.1.10",
     "express": "^5.1.0"
   },
