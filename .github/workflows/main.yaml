@@ -1,0 +1,88 @@
+name: node application with build, unit testing and lint check
+
+on:
+  push:
+    branch:
+      ["main"]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.npm       # or ~/.yarn/cache if using Yarn
+            node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Node install
+        run: npm ci
+
+      - name: lint check
+        run: npm run lint
+
+  build-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v5
+      
+      - name: Node environment setup
+        uses: actions/setup-node@v4
+        with:
+            node-version: 20
+            
+      - name: Restore node_modules cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.npm
+            node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - run: npm run build
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build
+          path: public/css/style.css 
+  
+  deploy:
+    needs: push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to EC2
+        run: |
+          mkdir -p ~/.ssh
+          echo ${{ secrets.SSH_KEY }} > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          echo "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.SSH_KNOWN_HOSTS }} << 'EOF'
+            sudo su
+            aws ecr get-login-password --region ${{ env.REGION }} | docker login --username AWS --password-stdin ${{ secrets.ACCOUNT_ID }}.dkr.ecr.${{ env.REGION }}.amazonaws.com
+            if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+              cd /var/www/damselbiz.com/
+            else
+              cd /var/www/dev.damselbiz.com/
+            fi
+            docker compose down
+            docker image prune -af
+            docker compose pull
+            docker compose up -d
+          EOF
+        shell: bash
+    env:

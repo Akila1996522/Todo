@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>🎉 Message Received</title>
+  <meta charset="UTF-8" />
+  <link href="/css/style.css" rel="stylesheet" />
+  <style>
+    body {
+      background: linear-gradient(to right, #4facfe, #00f2fe);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center font-sans">
+  <div class="bg-white bg-opacity-90 backdrop-blur-lg p-10 rounded-3xl shadow-2xl w-full max-w-lg text-center animate-fadeIn">
+    <h1 class="text-3xl font-bold text-blue-600 mb-4">🎉 Thank You!</h1>
+    <p class="mb-2"><strong>Name:</strong> <%= name %></p>
+    <p class="mb-2"><strong>Email:</strong> <%= email %></p>
+    <p class="mb-4"><strong>Message:</strong> <%= message %></p>
+    <a href="/" class="inline-block bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-xl shadow-md transition-all duration-300">🔙 Back to Form</a>
+    <a href="/todo" class="text-lg text-white underline hover:text-yellow-200">Go to ToDo List →</a>
+  </div>
+</body>
+</html>

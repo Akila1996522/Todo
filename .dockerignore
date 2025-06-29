@@ -1,0 +1,8 @@
+tests
+node_modules
+.github
+.dockerignore
+.eslintignore
+.eslintrc.json
+Dockerfile
+test.config.js
