@@ -75,6 +75,17 @@ jobs:
         with:
           name: build
           path: public/css/style.css 
+      
+      - name: Build and push frontend image
+        run: |
+          docker build -t ${{ env.FRONTEND_IMAGE }}:${{ env.TIMESTAMP }} -t ${{ env.FRONTEND_IMAGE }}:latest ./log-reg-Client
+          docker push ${{ env.FRONTEND_IMAGE }}:${{ env.TIMESTAMP }}
+          docker push ${{ env.FRONTEND_IMAGE }}:latest
+      
+        env:
+          REGISTRY: ghcr.io
+          FRONTEND_IMAGE: ghcr.io/Akila1996522/todo
+          TIMESTAMP: ${{ github.run_number }}-${{ github.sha }}
   
   deploy:
     needs: build-check
@@ -88,9 +99,8 @@ jobs:
           echo "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.SSH_KNOWN_HOSTS }} << 'EOF'
             sudo su
-            aws ecr get-login-password --region ${{ env.REGION }} | docker login --username AWS --password-stdin ${{ secrets.ACCOUNT_ID }}.dkr.ecr.${{ env.REGION }}.amazonaws.com
-            if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-              cd /var/www/damselbiz.com/
+            if [[ "${{ github.ref }}" == "refs/heads/develop" ]]; then
+              cd /var/www/todo/
             else
               cd /var/www/dev.damselbiz.com/
             fi
